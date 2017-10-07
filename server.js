@@ -28,7 +28,12 @@ Recipes.create(
 // when the root of this router is called with GET, return
 // all current ShoppingList items
 app.get('/shopping-list', (req, res) => {
-  res.json(ShoppingList.get());
+  const list = ShoppingList.get();
+  if (list === "error") {
+    res.status(500).send("internal server error");
+  } else {
+    res.status(200).json(ShoppingList.get());
+  } 
 });
 
 app.post('/shopping-list', jsonParser, (req, res) => {
